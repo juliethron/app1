@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dekko&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
 :root {
   --bg-color: #fff8fb;
@@ -32,7 +32,9 @@
 body {
   margin: 0;
   padding: 2rem 1rem 4rem;
-  font-family: 'Dekko', sans-serif;
+  font-family: 'M PLUS Rounded 1c', sans-serif; /* ✅ fixed */
+  font-weight: 400;
+  letter-spacing: 0.02em; /* ✨ subtle polish */
   background: linear-gradient(180deg, #fff8fb 0%, #f8f5ff 100%);
   color: var(--text-color);
   line-height: 1.5;
@@ -47,7 +49,7 @@ body {
 .hero h1 {
   margin: 0 0 1rem;
   font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
+  font-weight: 700; /* ✅ nice and chunky */
   color: var(--pink-dark);
 }
 
@@ -87,6 +89,7 @@ h2 {
   margin-bottom: 1rem;
   color: var(--text-color);
   font-size: 1.75rem;
+  font-weight: 600; /* ✨ better hierarchy */
 }
 
 input,
@@ -104,6 +107,7 @@ textarea {
   border-radius: 14px;
   background-color: #fff;
   color: var(--text-color);
+  font-weight: 400;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
@@ -123,7 +127,7 @@ button {
   padding: 0.8rem 1.2rem;
   background-color: var(--pink);
   color: #1f1722;
-  font-weight: 700;
+  font-weight: 600; /* ✨ softer than 700, looks nicer */
   cursor: pointer;
   transition: transform 0.15s ease, filter 0.2s ease, background-color 0.2s ease;
 }
@@ -161,7 +165,7 @@ textarea:focus {
 #register-message {
   min-height: 1.5rem;
   margin-top: 0.5rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--pink-dark);
 }
 
@@ -192,6 +196,7 @@ textarea:focus {
   margin-bottom: 0.5rem;
   color: var(--pink-dark);
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .post p {
