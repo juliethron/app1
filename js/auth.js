@@ -1,14 +1,37 @@
 const API_URL = "[api.noroff.dev](https://api.noroff.dev/api/v2)";
 
+
+export async function registerUser(name, email, password) {
+  const response = await fetch(`${API_URL}/social/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, email, password })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.errors?.[0]?.message || "Registration failed");
+  }
+
+  return data;
+}
+
+
 export async function loginUser(email, password) {
   const response = await fetch(`${API_URL}/social/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
+
+  const data = await response.json();
+
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.errors?.[0]?.message || "Login failed");
+    throw new Error(data.errors?.[0]?.message || "Login failed");
   }
-  return await response.json();
+
+  return data;
 }
