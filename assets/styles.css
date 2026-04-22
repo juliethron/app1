@@ -32,7 +32,7 @@
 body {
   margin: 0;
   padding: 2rem 1rem 4rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Dekko', sans-serif;
   background: linear-gradient(180deg, #fff8fb 0%, #f8f5ff 100%);
   color: var(--text-color);
   line-height: 1.5;
