@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nekko</title>
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <h1>Nekko</h1>
+
+  <section id="auth-section">
+    <h2>Login</h2>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+    <p id="login-message"></p>
+  </section>
+
+  <section id="posts-section" style="display: none;">
+    <h2>All Posts</h2>
+    <div id="create-post">
+      <input id="post-title" type="text" placeholder="Post title">
+      <textarea id="post-body" placeholder="Write something..."></textarea>
+      <button id="createBtn">Create Post</button>
+    </div>
+    <div id="posts"></div>
+  </section>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
 
