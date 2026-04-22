@@ -1,5 +1,4 @@
-const API_URL = "[api.noroff.dev](https://api.noroff.dev/api/v2)";
-
+const API_URL = "https://api.noroff.dev/api/v2";
 
 export async function registerUser(name, email, password) {
   const response = await fetch(`${API_URL}/social/auth/register`, {
@@ -18,7 +17,6 @@ export async function registerUser(name, email, password) {
 
   return data;
 }
-
 
 export async function loginUser(email, password) {
   const response = await fetch(`${API_URL}/social/auth/login`, {
