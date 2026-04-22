@@ -12,4 +12,3 @@ export async function loginUser(email, password) {
   }
   return await response.json();
 }
-
