@@ -34,6 +34,11 @@ section {
   box-shadow: 0 4px 8px var(--shadow);
 }
 
+#register-section,
+#auth-section,
+#posts-section {
+  margin-bottom: 1.5rem;
+}
 
 input,
 textarea {
