@@ -1,122 +1,232 @@
+@import url("[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap)");
+
 :root {
-  --bg-color: #fffafc;
+  --bg-color: #fff8fb;
   --card-color: #ffffff;
-  --accent-pink: #f8c8dc;
-  --accent-mint: #b9f3e4;
-  --accent-blue: #cbeaf5;
-  --accent-lavender: #dcd0ff;
-  --text-color: #444;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --text-color: #2f2a33;
+  --muted-text: #5f5868;
+
+  --pink: #e889b0;
+  --pink-dark: #b85c84;
+
+  --lavender: #d8c8ff;
+  --lavender-dark: #6b4fb3;
+
+  --blue: #d8efff;
+  --blue-dark: #2f5f7a;
+
+  --mint: #d8f5ea;
+  --mint-dark: #2f6b59;
+
+  --border: #d9cfe8;
+  --shadow: rgba(84, 61, 99, 0.12);
+
+  --focus: #5b4b8a;
+  --danger: #c45a7a;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Quicksand', sans-serif;
-  background-color: var(--bg-color);
+  margin: 0;
+  padding: 2rem 1rem 4rem;
+  font-family: "Quicksand", sans-serif;
+  background: linear-gradient(180deg, #fff8fb 0%, #f8f5ff 100%);
   color: var(--text-color);
-  margin: 2rem auto;
-  max-width: 700px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-h1 {
+.hero {
+  max-width: 760px;
+  margin: 0 auto 2rem;
   text-align: center;
-  font-size: 2rem;
-  background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
-section {
-  background-color: var(--card-color);
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 8px var(--shadow);
+.hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--pink-dark);
+}
+
+.hero-gif {
+  display: block;
+  width: 220px;
+  max-width: 80%;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.form-switch {
+  max-width: 760px;
+  margin: 0 auto 1.25rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 #register-section,
 #auth-section,
 #posts-section {
-  margin-bottom: 1.5rem;
+  max-width: 760px;
+  margin: 0 auto 1.5rem;
+  background-color: var(--card-color);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 8px 18px var(--shadow);
+  padding: 1.5rem;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 1.75rem;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
 }
 
 input,
 textarea {
-  display: block;
   width: 100%;
-  margin: 0.5rem 0;
-  padding: 0.75rem;
-  border-radius: 10px;
-  border: 2px solid var(--accent-lavender);
-  font-family: 'Quicksand', sans-serif;
-  outline: none;
-  transition: 0.2s ease;
+  margin: 0 0 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background-color: #fff;
+  color: var(--text-color);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-text);
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--pink);
+  color: #1f1722;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(0.97);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
 
 input:focus,
 textarea:focus {
-  border-color: var(--accent-pink);
-  background-color: #fff0f5;
+  border-color: var(--lavender-dark);
+  box-shadow: 0 0 0 4px rgba(107, 79, 179, 0.15);
 }
 
-button {
-  background: var(--accent-pink);
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s ease, transform 0.2s ease;
+#show-login,
+#show-register {
+  background-color: var(--lavender);
+  color: var(--text-color);
+  border: 1px solid #c9b6f5;
 }
 
-button:hover {
-  background: var(--accent-lavender);
-  transform: scale(1.05);
+#login-message,
+#register-message {
+  min-height: 1.5rem;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  color: var(--pink-dark);
 }
 
+#create-post {
+  background-color: #fcfbff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#posts {
+  display: grid;
+  gap: 1rem;
+}
 
 .post {
-  background-color: var(--card-color);
-  border: 2px solid var(--accent-blue);
-  border-radius: 14px;
+  background-color: #ffffff;
+  border: 1px solid var(--border);
+  border-left: 8px solid var(--pink);
+  border-radius: 16px;
   padding: 1rem;
-  margin-top: 1rem;
-  box-shadow: 0 3px 6px var(--shadow);
+  box-shadow: 0 4px 10px rgba(84, 61, 99, 0.08);
 }
 
 .post h3 {
-  color: var(--accent-pink);
+  margin-top: 0;
   margin-bottom: 0.5rem;
+  color: var(--pink-dark);
+  font-size: 1.2rem;
 }
 
 .post p {
+  margin-bottom: 0.9rem;
   color: var(--text-color);
-  margin-bottom: 0.5rem;
 }
 
 .post button {
-  background: var(--accent-mint);
-  color: #333;
-  font-size: 0.9rem;
+  background-color: #ffd9e4;
+  color: #4b2231;
+  border: 1px solid #f3b6c7;
 }
 
+@media (max-width: 600px) {
+  body {
+    padding: 1rem 0.75rem 3rem;
+  }
 
-#login-message {
-  color: var(--accent-pink);
-  font-weight: 600;
-  margin-top: 0.5rem;
-}
+  #register-section,
+  #auth-section,
+  #posts-section {
+    padding: 1rem;
+    border-radius: 16px;
+  }
 
+  h2 {
+    font-size: 1.4rem;
+  }
 
-#create-post {
-  background-color: var(--accent-blue);
-  padding: 1rem;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-}
+  button {
+    width: 100%;
+  }
 
-
-section, input, textarea, button, .post {
-  transition: all 0.25s ease-in-out;
+  .form-switch button {
+    width: auto;
+    min-width: 120px;
+  }
 }
