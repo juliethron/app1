@@ -1,1 +1,33 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  background: #fafafa;
+}
+
+h1 {
+  text-align: center;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+input, textarea {
+  display: block;
+  margin: 0.5rem 0;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.post {
+  background: white;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
 
