@@ -2,9 +2,10 @@ import { registerUser, loginUser } from "./auth.js";
 import { saveToken, getToken } from "./utils.js";
 import { getAllPosts, createPost, deletePost } from "./posts.js";
 
-const registerBtn = document.querySelector("#registerBtn");
-const loginBtn = document.querySelector("#loginBtn");
+const registerForm = document.querySelector("#register-form");
+const loginForm = document.querySelector("#login-form");
 const createBtn = document.querySelector("#createBtn");
+
 const showLoginBtn = document.querySelector("#show-login");
 const showRegisterBtn = document.querySelector("#show-register");
 
@@ -27,26 +28,21 @@ if (showLoginBtn && showRegisterBtn) {
   });
 }
 
+
 if (!getToken()) {
   registerSection.style.display = "none";
   authSection.style.display = "block";
   postsSection.style.display = "none";
 }
 
-if (registerBtn) {
-  registerBtn.addEventListener("click", handleRegister);
+
+if (registerForm) {
+  registerForm.addEventListener("submit", handleRegister);
 }
 
-if (loginBtn) {
-  loginBtn.addEventListener("click", handleLogin);
-}
+async function handleRegister(e) {
+  e.preventDefault(); 
 
-if (createBtn) {
-  createBtn.addEventListener("click", handleCreatePost);
-}
-
-
-async function handleRegister() {
   const name = document.querySelector("#register-name").value.trim();
   const email = document.querySelector("#register-email").value.trim();
   const password = document.querySelector("#register-password").value.trim();
@@ -55,6 +51,7 @@ async function handleRegister() {
 
   try {
     await registerUser(name, email, password);
+
     registerMessage.textContent = "Registration successful! You can now log in.";
 
     document.querySelector("#register-name").value = "";
@@ -68,8 +65,13 @@ async function handleRegister() {
   }
 }
 
+if (loginForm) {
+  loginForm.addEventListener("submit", handleLogin);
+}
 
-async function handleLogin() {
+async function handleLogin(e) {
+  e.preventDefault(); 
+
   const email = document.querySelector("#email").value.trim();
   const password = document.querySelector("#password").value.trim();
 
@@ -90,7 +92,6 @@ async function handleLogin() {
     loginMessage.textContent = err.message;
   }
 }
-
 
 async function loadPosts() {
   const postsDiv = document.querySelector("#posts");
@@ -124,6 +125,9 @@ window.deletePostHandler = async function (id) {
   }
 };
 
+if (createBtn) {
+  createBtn.addEventListener("click", handleCreatePost);
+}
 
 async function handleCreatePost() {
   const title = document.querySelector("#post-title").value.trim();
