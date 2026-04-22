@@ -5,79 +5,150 @@ import { getAllPosts, createPost, deletePost } from "./posts.js";
 const registerBtn = document.querySelector("#registerBtn");
 const loginBtn = document.querySelector("#loginBtn");
 const createBtn = document.querySelector("#createBtn");
-const postsSection = document.querySelector("#posts-section");
-const loginMessage = document.querySelector("#login-message");
-const registerMessage = document.querySelector("#register-message");
+const showLoginBtn = document.querySelector("#show-login");
+const showRegisterBtn = document.querySelector("#show-register");
 
-registerBtn.addEventListener("click", handleRegister);
-loginBtn.addEventListener("click", handleLogin);
-createBtn.addEventListener("click", handleCreatePost);
+const registerSection = document.querySelector("#register-section");
+const authSection = document.querySelector("#auth-section");
+const postsSection = document.querySelector("#posts-section");
+
+const registerMessage = document.querySelector("#register-message");
+const loginMessage = document.querySelector("#login-message");
+
+if (showLoginBtn && showRegisterBtn) {
+  showLoginBtn.addEventListener("click", () => {
+    authSection.style.display = "block";
+    registerSection.style.display = "none";
+  });
+
+  showRegisterBtn.addEventListener("click", () => {
+    registerSection.style.display = "block";
+    authSection.style.display = "none";
+  });
+}
+
+if (!getToken()) {
+  registerSection.style.display = "none";
+  authSection.style.display = "block";
+  postsSection.style.display = "none";
+}
+
+if (registerBtn) {
+  registerBtn.addEventListener("click", handleRegister);
+}
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", handleLogin);
+}
+
+if (createBtn) {
+  createBtn.addEventListener("click", handleCreatePost);
+}
+
 
 async function handleRegister() {
-  const name = document.querySelector("#register-name").value;
-  const email = document.querySelector("#register-email").value;
-  const password = document.querySelector("#register-password").value;
+  const name = document.querySelector("#register-name").value.trim();
+  const email = document.querySelector("#register-email").value.trim();
+  const password = document.querySelector("#register-password").value.trim();
+
+  registerMessage.textContent = "";
 
   try {
     await registerUser(name, email, password);
     registerMessage.textContent = "Registration successful! You can now log in.";
+
+    document.querySelector("#register-name").value = "";
+    document.querySelector("#register-email").value = "";
+    document.querySelector("#register-password").value = "";
+
+    registerSection.style.display = "none";
+    authSection.style.display = "block";
   } catch (err) {
     registerMessage.textContent = err.message;
   }
 }
 
+
 async function handleLogin() {
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
+  const email = document.querySelector("#email").value.trim();
+  const password = document.querySelector("#password").value.trim();
+
+  loginMessage.textContent = "";
 
   try {
     const data = await loginUser(email, password);
     saveToken(data.accessToken);
+
     loginMessage.textContent = "Login successful!";
-    document.querySelector("#auth-section").style.display = "none";
-    document.querySelector("#register-section").style.display = "none";
+
+    registerSection.style.display = "none";
+    authSection.style.display = "none";
     postsSection.style.display = "block";
+
     loadPosts();
   } catch (err) {
     loginMessage.textContent = err.message;
   }
 }
 
+
 async function loadPosts() {
   const postsDiv = document.querySelector("#posts");
   postsDiv.innerHTML = "<p>Loading posts...</p>";
-  const posts = await getAllPosts();
 
-  postsDiv.innerHTML = posts
-    .map(
-      (p) => `
-      <div class="post">
-        <h3>${p.title}</h3>
-        <p>${p.body || ""}</p>
-        <button onclick="deletePostHandler(${p.id})">Delete</button>
-      </div>
-    `
-    )
-    .join("");
+  try {
+    const posts = await getAllPosts();
+
+    postsDiv.innerHTML = posts
+      .map(
+        (post) => `
+          <div class="post">
+            <h3>${post.title}</h3>
+            <p>${post.body || ""}</p>
+            <button onclick="deletePostHandler('${post.id}')">Delete</button>
+          </div>
+        `
+      )
+      .join("");
+  } catch (err) {
+    postsDiv.innerHTML = `<p>${err.message}</p>`;
+  }
 }
 
 window.deletePostHandler = async function (id) {
-  await deletePost(id);
-  loadPosts();
+  try {
+    await deletePost(id);
+    loadPosts();
+  } catch (err) {
+    alert(err.message);
+  }
 };
 
+
 async function handleCreatePost() {
-  const title = document.querySelector("#post-title").value;
-  const body = document.querySelector("#post-body").value;
-  await createPost(title, body);
-  document.querySelector("#post-title").value = "";
-  document.querySelector("#post-body").value = "";
-  loadPosts();
+  const title = document.querySelector("#post-title").value.trim();
+  const body = document.querySelector("#post-body").value.trim();
+
+  if (!title) {
+    alert("Please enter a post title.");
+    return;
+  }
+
+  try {
+    await createPost(title, body);
+
+    document.querySelector("#post-title").value = "";
+    document.querySelector("#post-body").value = "";
+
+    loadPosts();
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
 if (getToken()) {
-  document.querySelector("#auth-section").style.display = "none";
-  document.querySelector("#register-section").style.display = "none";
+  registerSection.style.display = "none";
+  authSection.style.display = "none";
   postsSection.style.display = "block";
   loadPosts();
 }
