@@ -1,5 +1,6 @@
 const API_URL = "[api.noroff.dev](https://api.noroff.dev/api/v2)";
 
+
 export async function registerUser(name, email, password) {
   const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
