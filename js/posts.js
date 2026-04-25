@@ -2,7 +2,6 @@ import { getToken } from "./utils.js";
 
 const API_POSTS = "[api.noroff.dev](https://api.noroff.dev/api/v2/social/posts)";
 
-
 export async function getAllPosts() {
   const token = getToken();
   const response = await fetch(API_POSTS, {
@@ -10,7 +9,6 @@ export async function getAllPosts() {
   });
   return response.json();
 }
-
 
 export async function createPost(title, body) {
   const token = getToken();
@@ -25,7 +23,6 @@ export async function createPost(title, body) {
   return response.json();
 }
 
-
 export async function deletePost(id) {
   const token = getToken();
   await fetch(`${API_POSTS}/${id}`, {
@@ -35,4 +32,3 @@ export async function deletePost(id) {
     },
   });
 }
-
