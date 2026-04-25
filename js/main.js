@@ -59,10 +59,9 @@ try {
 await registerUser(name, email, password);
 registerMessage.textContent = "Registration successful! You can now log in.";
 
-```
 registerSection.style.display = "none";
 authSection.style.display = "block";
-```
+
 
 } catch (error) {
 console.error("REGISTER ERROR:", error);
@@ -125,7 +124,7 @@ try {
 const response = await getAllPosts();
 const posts = response.data || [];
 
-```
+
 postsDiv.innerHTML = posts
   .map((post) => {
     return `
@@ -137,7 +136,7 @@ postsDiv.innerHTML = posts
     `;
   })
   .join("");
-```
+
 
 } catch (error) {
 console.error("LOAD POSTS ERROR:", error);
@@ -157,12 +156,12 @@ return;
 try {
 await createPost(title, body);
 
-```
+
 document.querySelector("#post-title").value = "";
 document.querySelector("#post-body").value = "";
 
 loadPosts();
-```
+
 
 } catch (error) {
 console.error("CREATE POST ERROR:", error);
