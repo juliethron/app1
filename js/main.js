@@ -85,27 +85,30 @@ return;
 }
 
 try {
-const data = await loginUser(email, password);
+  const data = await loginUser(email, password);
 
-```
-console.log("LOGIN RESPONSE:", data);
+  console.log("LOGIN RESPONSE:", data);
 
-const token = data?.data?.accessToken;
+  const token = data?.data?.accessToken;
 
-if (!token) {
-  throw new Error("Login succeeded but no token returned.");
+  if (!token) {
+    throw new Error("Login succeeded but no token returned.");
+  }
+
+  saveToken(token);
+
+  loginMessage.textContent = "Login successful!";
+
+  authSection.style.display = "none";
+  registerSection.style.display = "none";
+  postsSection.style.display = "block";
+
+  loadPosts();
+
+} catch (error) {
+  console.error("LOGIN ERROR:", error);
+  loginMessage.textContent = error.message;
 }
-
-saveToken(token);
-
-loginMessage.textContent = "Login successful!";
-
-authSection.style.display = "none";
-registerSection.style.display = "none";
-postsSection.style.display = "block";
-
-loadPosts();
-```
 
 } catch (error) {
 console.error("LOGIN ERROR:", error);
