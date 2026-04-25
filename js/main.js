@@ -71,45 +71,43 @@ registerMessage.textContent = error.message;
 }
 
 async function handleLogin(event) {
-event.preventDefault();
+  event.preventDefault();
 
-const email = document.querySelector("#email").value.trim();
-const password = document.querySelector("#password").value.trim();
+  const email = document.querySelector("#email").value.trim();
+  const password = document.querySelector("#password").value.trim();
 
-loginMessage.textContent = "";
+  loginMessage.textContent = "";
 
-if (!email || !password) {
-loginMessage.textContent = "Please enter email and password.";
-return;
-}
+  if (!email || !password) {
+    loginMessage.textContent = "Please enter email and password.";
+    return;
+  }
 
-try {
-const data = await loginUser(email, password);
+  try {
+    const data = await loginUser(email, password);
 
+    console.log("LOGIN RESPONSE:", data);
 
-console.log("LOGIN RESPONSE:", data);
+    const token = data?.data?.accessToken;
 
-const token = data?.data?.accessToken;
+    if (!token) {
+      throw new Error("Login succeeded but no token returned.");
+    }
 
-if (!token) {
-  throw new Error("Login succeeded but no token returned.");
-}
+    saveToken(token);
 
-saveToken(token);
+    loginMessage.textContent = "Login successful!";
 
-loginMessage.textContent = "Login successful!";
+    authSection.style.display = "none";
+    registerSection.style.display = "none";
+    postsSection.style.display = "block";
 
-authSection.style.display = "none";
-registerSection.style.display = "none";
-postsSection.style.display = "block";
+    loadPosts();
 
-loadPosts();
-
-
-} catch (error) {
-console.error("LOGIN ERROR:", error);
-loginMessage.textContent = error.message;
-}
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+    loginMessage.textContent = error.message;
+  }
 }
 
 async function loadPosts() {
