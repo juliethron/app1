@@ -59,6 +59,7 @@ try {
 await registerUser(name, email, password);
 registerMessage.textContent = "Registration successful! You can now log in.";
 
+
 registerSection.style.display = "none";
 authSection.style.display = "block";
 
@@ -68,7 +69,6 @@ console.error("REGISTER ERROR:", error);
 registerMessage.textContent = error.message;
 }
 }
-
 
 async function handleLogin(event) {
 event.preventDefault();
@@ -84,37 +84,33 @@ return;
 }
 
 try {
-  const data = await loginUser(email, password);
+const data = await loginUser(email, password);
 
-  console.log("LOGIN RESPONSE:", data);
 
-  const token = data?.data?.accessToken;
+console.log("LOGIN RESPONSE:", data);
 
-  if (!token) {
-    throw new Error("Login succeeded but no token returned.");
-  }
+const token = data?.data?.accessToken;
 
-  saveToken(token);
-
-  loginMessage.textContent = "Login successful!";
-
-  authSection.style.display = "none";
-  registerSection.style.display = "none";
-  postsSection.style.display = "block";
-
-  loadPosts();
-
-} catch (error) {
-  console.error("LOGIN ERROR:", error);
-  loginMessage.textContent = error.message;
+if (!token) {
+  throw new Error("Login succeeded but no token returned.");
 }
+
+saveToken(token);
+
+loginMessage.textContent = "Login successful!";
+
+authSection.style.display = "none";
+registerSection.style.display = "none";
+postsSection.style.display = "block";
+
+loadPosts();
+
 
 } catch (error) {
 console.error("LOGIN ERROR:", error);
 loginMessage.textContent = error.message;
 }
 }
-
 
 async function loadPosts() {
 const postsDiv = document.querySelector("#posts");
