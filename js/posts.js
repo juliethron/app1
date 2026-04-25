@@ -1,6 +1,6 @@
 import { getToken } from "./utils.js";
 
-const API_POSTS = "[api.noroff.dev](https://api.noroff.dev/api/v2/social/posts)";
+const API_POSTS = "https://api.noroff.dev/api/v2/social/posts";
 
 export async function getAllPosts() {
   const token = getToken();
