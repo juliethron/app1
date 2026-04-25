@@ -13,151 +13,169 @@ const registerMessage = document.querySelector("#register-message");
 const loginMessage = document.querySelector("#login-message");
 
 showLoginBtn.addEventListener("click", () => {
-  registerSection.style.display = "none";
-  authSection.style.display = "block";
+registerSection.style.display = "none";
+authSection.style.display = "block";
 });
 
 showRegisterBtn.addEventListener("click", () => {
-  authSection.style.display = "none";
-  registerSection.style.display = "block";
+authSection.style.display = "none";
+registerSection.style.display = "block";
 });
-
 
 document.querySelector("#login-form").addEventListener("submit", handleLogin);
 document.querySelector("#register-form").addEventListener("submit", handleRegister);
-
 document.querySelector("#createBtn").addEventListener("click", handleCreatePost);
 
-
-
 function setInitialView() {
-  const token = getToken();
+const token = getToken();
 
-  if (token) {
-    registerSection.style.display = "none";
-    authSection.style.display = "none";
-    postsSection.style.display = "block";
-    loadPosts();
-  } else {
-    registerSection.style.display = "none";
-    authSection.style.display = "block";
-    postsSection.style.display = "none";
-  }
+if (token) {
+registerSection.style.display = "none";
+authSection.style.display = "none";
+postsSection.style.display = "block";
+loadPosts();
+} else {
+registerSection.style.display = "none";
+authSection.style.display = "block";
+postsSection.style.display = "none";
 }
-
-
+}
 
 async function handleRegister(event) {
-  event.preventDefault();
+event.preventDefault();
 
-  const name = document.querySelector("#register-name").value.trim();
-  const email = document.querySelector("#register-email").value.trim();
-  const password = document.querySelector("#register-password").value.trim();
+const name = document.querySelector("#register-name").value.trim();
+const email = document.querySelector("#register-email").value.trim();
+const password = document.querySelector("#register-password").value.trim();
 
-  registerMessage.textContent = "";
+registerMessage.textContent = "";
 
-  if (!name || !email || !password) {
-    registerMessage.textContent = "Please fill in all register fields.";
-    return;
-  }
-
-  try {
-    await registerUser(name, email, password);
-    registerMessage.textContent = "Registration successful! You can now log in.";
-
-    
-    registerSection.style.display = "none";
-    authSection.style.display = "block";
-  } catch (error) {
-    registerMessage.textContent = error.message;
-  }
+if (!name || !email || !password) {
+registerMessage.textContent = "Please fill in all register fields.";
+return;
 }
 
+try {
+await registerUser(name, email, password);
+registerMessage.textContent = "Registration successful! You can now log in.";
+
+```
+registerSection.style.display = "none";
+authSection.style.display = "block";
+```
+
+} catch (error) {
+console.error("REGISTER ERROR:", error);
+registerMessage.textContent = error.message;
+}
+}
 
 
 async function handleLogin(event) {
-  event.preventDefault();
+event.preventDefault();
 
-  const email = document.querySelector("#email").value.trim();
-  const password = document.querySelector("#password").value.trim();
+const email = document.querySelector("#email").value.trim();
+const password = document.querySelector("#password").value.trim();
 
-  loginMessage.textContent = "";
+loginMessage.textContent = "";
 
-  if (!email || !password) {
-    loginMessage.textContent = "Please enter email and password.";
-    return;
-  }
+if (!email || !password) {
+loginMessage.textContent = "Please enter email and password.";
+return;
+}
 
-  try {
-    const data = await loginUser(email, password);
-    saveToken(data.data.accessToken);
+try {
+const data = await loginUser(email, password);
 
-    loginMessage.textContent = "Login successful!";
+```
+console.log("LOGIN RESPONSE:", data); // 🔥 IMPORTANT DEBUG LINE
 
-    authSection.style.display = "none";
-    registerSection.style.display = "none";
-    postsSection.style.display = "block";
+// safer access (prevents crash if structure is different)
+const token = data?.data?.accessToken;
 
-    loadPosts();
-  } catch (error) {
-    loginMessage.textContent = error.message;
-  }
+if (!token) {
+  throw new Error("Login succeeded but no token returned.");
+}
+
+saveToken(token);
+
+loginMessage.textContent = "Login successful!";
+
+authSection.style.display = "none";
+registerSection.style.display = "none";
+postsSection.style.display = "block";
+
+loadPosts();
+```
+
+} catch (error) {
+console.error("LOGIN ERROR:", error);
+loginMessage.textContent = error.message;
+}
 }
 
 
 async function loadPosts() {
-  const postsDiv = document.querySelector("#posts");
-  postsDiv.innerHTML = "<p>Loading posts...</p>";
+const postsDiv = document.querySelector("#posts");
+postsDiv.innerHTML = "<p>Loading posts...</p>";
 
-  try {
-    const response = await getAllPosts();
-    const posts = response.data || [];
+try {
+const response = await getAllPosts();
+const posts = response.data || [];
 
-    postsDiv.innerHTML = posts
-      .map(
-        (post) => `
-        <div class="post">
-          <h3>${post.title || "Untitled post"}</h3>
-          <p>${post.body || ""}</p>
-          <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
-        </div>
-      `
-      )
-      .join("");
-  } catch (error) {
-    postsDiv.innerHTML = `<p>${error.message}</p>`;
-  }
+```
+postsDiv.innerHTML = posts
+  .map(
+    (post) => `
+    <div class="post">
+      <h3>${post.title || "Untitled post"}</h3>
+      <p>${post.body || ""}</p>
+      <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
+    </div>
+  `
+  )
+  .join("");
+```
+
+} catch (error) {
+console.error("LOAD POSTS ERROR:", error);
+postsDiv.innerHTML = `<p>${error.message}</p>`;
+}
 }
 
 async function handleCreatePost() {
-  const title = document.querySelector("#post-title").value.trim();
-  const body = document.querySelector("#post-body").value.trim();
+const title = document.querySelector("#post-title").value.trim();
+const body = document.querySelector("#post-body").value.trim();
 
-  if (!title) {
-    alert("Please enter a post title.");
-    return;
-  }
-
-  try {
-    await createPost(title, body);
-
-    document.querySelector("#post-title").value = "";
-    document.querySelector("#post-body").value = "";
-
-    loadPosts();
-  } catch (error) {
-    alert(error.message);
-  }
+if (!title) {
+alert("Please enter a post title.");
+return;
 }
 
+try {
+await createPost(title, body);
+
+```
+document.querySelector("#post-title").value = "";
+document.querySelector("#post-body").value = "";
+
+loadPosts();
+```
+
+} catch (error) {
+console.error("CREATE POST ERROR:", error);
+alert(error.message);
+}
+}
 
 window.deletePostHandler = async function (id) {
-  try {
-    await deletePost(id);
-    loadPosts();
-  } catch (error) {
-    alert(error.message);
-  }
+try {
+await deletePost(id);
+loadPosts();
+} catch (error) {
+console.error("DELETE POST ERROR:", error);
+alert(error.message);
+}
 };
 
 setInitialView();
