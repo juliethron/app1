@@ -125,15 +125,15 @@ const posts = response.data || [];
 
 ```
 postsDiv.innerHTML = posts
-  .map(
-    (post) => `
-    <div class="post">
-      <h3>${post.title || "Untitled post"}</h3>
-      <p>${post.body || ""}</p>
-      <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
-    </div>
-  `
-  )
+  .map((post) => {
+    return `
+      <div class="post">
+        <h3>${post.title || "Untitled post"}</h3>
+        <p>${post.body || ""}</p>
+        <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
+      </div>
+    `;
+  })
   .join("");
 ```
 
