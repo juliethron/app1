@@ -35,6 +35,7 @@ if (showRegisterBtn) {
   });
 }
 
+
 if (registerBtn) {
   registerBtn.addEventListener("click", handleRegister);
 }
@@ -46,7 +47,6 @@ if (loginBtn) {
 if (createBtn) {
   createBtn.addEventListener("click", handleCreatePost);
 }
-
 
 function setInitialView() {
   const token = getToken();
@@ -63,8 +63,8 @@ function setInitialView() {
   }
 }
 
-
-async function handleRegister() {
+async function handleRegister(event) {
+  event.preventDefault();  
   const name = document.querySelector("#register-name").value.trim();
   const email = document.querySelector("#register-email").value.trim();
   const password = document.querySelector("#register-password").value.trim();
@@ -92,8 +92,8 @@ async function handleRegister() {
   }
 }
 
-
-async function handleLogin() {
+async function handleLogin(event) {
+  event.preventDefault();  
   const email = document.querySelector("#email").value.trim();
   const password = document.querySelector("#password").value.trim();
 
@@ -106,7 +106,6 @@ async function handleLogin() {
 
   try {
     const data = await loginUser(email, password);
-
     saveToken(data.data.accessToken);
 
     loginMessage.textContent = "Login successful!";
@@ -120,7 +119,6 @@ async function handleLogin() {
     loginMessage.textContent = error.message;
   }
 }
-
 
 async function loadPosts() {
   const postsDiv = document.querySelector("#posts");
@@ -136,7 +134,7 @@ async function loadPosts() {
           <div class="post">
             <h3>${post.title || "Untitled post"}</h3>
             <p>${post.body || ""}</p>
-            <button onclick="deletePostHandler('${post.id}')">Delete</button>
+            <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
           </div>
         `
       )
@@ -146,8 +144,8 @@ async function loadPosts() {
   }
 }
 
-
-async function handleCreatePost() {
+async function handleCreatePost(event) {
+  event.preventDefault();  
   const title = document.querySelector("#post-title").value.trim();
   const body = document.querySelector("#post-body").value.trim();
 
