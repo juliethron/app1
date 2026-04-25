@@ -88,9 +88,8 @@ try {
 const data = await loginUser(email, password);
 
 ```
-console.log("LOGIN RESPONSE:", data); // 🔥 IMPORTANT DEBUG LINE
+console.log("LOGIN RESPONSE:", data);
 
-// safer access (prevents crash if structure is different)
 const token = data?.data?.accessToken;
 
 if (!token) {
