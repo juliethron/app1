@@ -1,5 +1,6 @@
 const API_URL = "https://api.noroff.dev/api/v2";
 
+export async function registerUser(name, email, password) {
   const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
