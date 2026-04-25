@@ -22,6 +22,7 @@ showRegisterBtn.addEventListener("click", () => {
   registerSection.style.display = "block";
 });
 
+
 document.querySelector("#login-form").addEventListener("submit", handleLogin);
 document.querySelector("#register-form").addEventListener("submit", handleRegister);
 
