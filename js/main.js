@@ -2,51 +2,32 @@ import { registerUser, loginUser } from "./auth.js";
 import { saveToken, getToken } from "./utils.js";
 import { getAllPosts, createPost, deletePost } from "./posts.js";
 
-
 const showLoginBtn = document.querySelector("#show-login");
 const showRegisterBtn = document.querySelector("#show-register");
-
-
-const registerBtn = document.querySelector("#registerBtn");
-const loginBtn = document.querySelector("#loginBtn");
-const createBtn = document.querySelector("#createBtn");
-
 
 const registerSection = document.querySelector("#register-section");
 const authSection = document.querySelector("#auth-section");
 const postsSection = document.querySelector("#posts-section");
 
-
 const registerMessage = document.querySelector("#register-message");
 const loginMessage = document.querySelector("#login-message");
 
+showLoginBtn.addEventListener("click", () => {
+  registerSection.style.display = "none";
+  authSection.style.display = "block";
+});
 
-if (showLoginBtn) {
-  showLoginBtn.addEventListener("click", () => {
-    registerSection.style.display = "none";
-    authSection.style.display = "block";
-  });
-}
+showRegisterBtn.addEventListener("click", () => {
+  authSection.style.display = "none";
+  registerSection.style.display = "block";
+});
 
-if (showRegisterBtn) {
-  showRegisterBtn.addEventListener("click", () => {
-    authSection.style.display = "none";
-    registerSection.style.display = "block";
-  });
-}
+document.querySelector("#login-form").addEventListener("submit", handleLogin);
+document.querySelector("#register-form").addEventListener("submit", handleRegister);
+
+document.querySelector("#createBtn").addEventListener("click", handleCreatePost);
 
 
-if (registerBtn) {
-  registerBtn.addEventListener("click", handleRegister);
-}
-
-if (loginBtn) {
-  loginBtn.addEventListener("click", handleLogin);
-}
-
-if (createBtn) {
-  createBtn.addEventListener("click", handleCreatePost);
-}
 
 function setInitialView() {
   const token = getToken();
@@ -63,8 +44,11 @@ function setInitialView() {
   }
 }
 
+
+
 async function handleRegister(event) {
-  event.preventDefault();  
+  event.preventDefault();
+
   const name = document.querySelector("#register-name").value.trim();
   const email = document.querySelector("#register-email").value.trim();
   const password = document.querySelector("#register-password").value.trim();
@@ -78,13 +62,9 @@ async function handleRegister(event) {
 
   try {
     await registerUser(name, email, password);
-
     registerMessage.textContent = "Registration successful! You can now log in.";
 
-    document.querySelector("#register-name").value = "";
-    document.querySelector("#register-email").value = "";
-    document.querySelector("#register-password").value = "";
-
+    
     registerSection.style.display = "none";
     authSection.style.display = "block";
   } catch (error) {
@@ -92,8 +72,11 @@ async function handleRegister(event) {
   }
 }
 
+
+
 async function handleLogin(event) {
-  event.preventDefault();  
+  event.preventDefault();
+
   const email = document.querySelector("#email").value.trim();
   const password = document.querySelector("#password").value.trim();
 
@@ -120,6 +103,7 @@ async function handleLogin(event) {
   }
 }
 
+
 async function loadPosts() {
   const postsDiv = document.querySelector("#posts");
   postsDiv.innerHTML = "<p>Loading posts...</p>";
@@ -131,12 +115,12 @@ async function loadPosts() {
     postsDiv.innerHTML = posts
       .map(
         (post) => `
-          <div class="post">
-            <h3>${post.title || "Untitled post"}</h3>
-            <p>${post.body || ""}</p>
-            <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
-          </div>
-        `
+        <div class="post">
+          <h3>${post.title || "Untitled post"}</h3>
+          <p>${post.body || ""}</p>
+          <button type="button" onclick="deletePostHandler('${post.id}')">Delete</button>
+        </div>
+      `
       )
       .join("");
   } catch (error) {
@@ -144,8 +128,7 @@ async function loadPosts() {
   }
 }
 
-async function handleCreatePost(event) {
-  event.preventDefault();  
+async function handleCreatePost() {
   const title = document.querySelector("#post-title").value.trim();
   const body = document.querySelector("#post-body").value.trim();
 
@@ -165,6 +148,7 @@ async function handleCreatePost(event) {
     alert(error.message);
   }
 }
+
 
 window.deletePostHandler = async function (id) {
   try {
