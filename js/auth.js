@@ -12,9 +12,13 @@ export async function registerUser(name, email, password) {
   const data = await response.json();
 
   if (!response.ok) {
-    console.error("REGISTER ERROR:", data);
-    throw new Error(data.errors?.[0]?.message || data.message || "Registration failed");
-  }
+  console.error("LOGIN ERROR FULL RESPONSE:", data);
+  throw new Error(
+    data.errors?.[0]?.message || 
+    data.message || 
+    JSON.stringify(data)
+  );
+}
 
   return data;
 }
