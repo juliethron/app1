@@ -1,41 +1,40 @@
-const API_URL = "https://api.noroff.dev/api/v2/social";
+const API_URL = "https://api.noroff.dev/api/v2";
 
 export async function registerUser(name, email, password) {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify({ name, email, password })
-  });
+const response = await fetch(`${API_URL}/auth/register`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ name, email, password })
+});
 
-  const data = await response.json();
+const data = await response.json();
 
-  if (!response.ok) {
-    console.error(data);
-    throw new Error(data.errors?.[0]?.message || data.message || "Registration failed");
-  }
-
-  return data;
+if (!response.ok) {
+console.error("REGISTER ERROR:", data);
+throw new Error(data.errors?.[0]?.message || data.message || "Registration failed");
 }
 
+return data;
+}
+
+
 export async function loginUser(email, password) {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  });
+const response = await fetch(`${API_URL}/auth/login`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ email, password })
+});
 
-  const data = await response.json();
+const data = await response.json();
 
-  if (!response.ok) {
-    console.error(data);
-    throw new Error(data.errors?.[0]?.message || data.message || "Login failed");
-  }
+if (!response.ok) {
+console.error("LOGIN ERROR:", data);
+throw new Error(data.errors?.[0]?.message || data.message || "Login failed");
+}
 
-  return data;
+return data;
 }
